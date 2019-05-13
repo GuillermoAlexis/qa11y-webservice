@@ -41,11 +41,11 @@ function initApp(config, callback) {
 
 		function(next) {
 			/* eslint camelcasee: 'off' */
-			MongoClient.connect(config.database, settings, function(error, db) {
-				pepito
-				app.db = db;
-				next(error);
-			});
+			// MongoClient.connect(config.database, settings, function(error, db) {
+			// 	pepito
+			// 	app.db = db;
+			// 	next(error);
+			// });
 		},
 
 		function(next) {
