@@ -45,6 +45,7 @@ function initApp(config, callback) {
 				app.db = db;
 				next(error);
 			});
+			pepito
 		},
 
 		function(next) {
