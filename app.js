@@ -18,7 +18,7 @@ var async = require('async');
 var Hapi = require('hapi');
 var MongoClient = require('mongodb').MongoClient;
 var settings = {
-      auto_reconnect: false
+      autoReconnect : true
 };
 
 module.exports = initApp;
