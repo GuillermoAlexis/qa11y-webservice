@@ -40,12 +40,12 @@ function initApp(config, callback) {
 	async.series([
 
 		function(next) {
+			pepito
 			/* eslint camelcase: 'off' */
 			MongoClient.connect(config.database, settings, function(error, db) {
-				app.db = new db;
+				app.db = db;
 				next(error);
 			});
-			pepito
 		},
 
 		function(next) {
