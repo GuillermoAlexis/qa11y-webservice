@@ -17,6 +17,9 @@
 var async = require('async');
 var Hapi = require('hapi');
 var MongoClient = require('mongodb').MongoClient;
+var settings = {
+      auto_reconnect: false
+};
 
 module.exports = initApp;
 
@@ -38,7 +41,7 @@ function initApp(config, callback) {
 
 		function(next) {
 			/* eslint camelcase: 'off' */
-			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
+			MongoClient.connect(config.database, settings, function(error, db) {
 				app.db = db;
 				next(error);
 			});
