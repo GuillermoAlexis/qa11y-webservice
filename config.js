@@ -21,7 +21,7 @@ if (fs.existsSync(jsonPath)) {
 	module.exports = require(jsonPath);
 } else {
 	module.exports = {
-		database: env('mongodb://qa11ywebservice:ad785dae94c8c359ba5c29d9c301881f@dokku-mongo-qa11ywebservice:27017/qa11ywebservice'),
+		database: env('mongodb://qa11ywebservicebd:b51010786d405f6b7c58b1044392283c@dokku-mongo-qa11ywebservicebd:27017/qa11ywebservicebd'),
 		host: env('HOST', '0.0.0.0'),
 		port: Number(env('PORT', '3000')),
 		cron: env('CRON', false)
