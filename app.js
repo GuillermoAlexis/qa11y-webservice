@@ -42,6 +42,7 @@ function initApp(config, callback) {
 		function(next) {
 
 			/* eslint camelcase: 'off' */
+			echo config.database
 			MongoClient.connect(config.database, settings, function(error, db) {
 				app.db = db;
 				next(error);
