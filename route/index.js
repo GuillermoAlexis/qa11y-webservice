@@ -25,7 +25,7 @@ module.exports = function(app) {
 		method: 'GET',
 		path: '/',
 		handler: function(request, reply) {
-			return reply('Pa11y-webservice is running.  Documentation at https://github.com/pa11y/pa11y-webservice/wiki/Web-Service-Endpoints').code(200);
+			return reply('Qa11y-webservice esta ok.  Repo https://github.com/GuillermoAlex/qa11y-webservice').code(200);
 		}
 	});
 };
