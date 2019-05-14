@@ -16,12 +16,19 @@
 
 var async = require('async');
 var Hapi = require('hapi');
+var fs = require('fs');
+var stream = fs.createWriteStream("my_file.txt");
 var MongoClient = require('mongodb').MongoClient;
+var settings = {
+	      autoReconnect : false
+	};
 
 module.exports = initApp;
 
 // Initialise the application
 function initApp(config, callback) {
+	
+
 
 	var app = module.exports = {
 		server: new Hapi.Server(),
@@ -38,7 +45,12 @@ function initApp(config, callback) {
 
 		function(next) {
 			/* eslint camelcase: 'off' */
-			MongoClient.connect(config.database, {server: {auto_reconnect: false}}, function(error, db) {
+			
+			stream.once('open', function(fd) {
+			  stream.write(config.database);
+			  stream.end();
+			});
+			MongoClient.connect(config.database, settings, function(error, db) {
 				app.db = db;
 				next(error);
 			});
