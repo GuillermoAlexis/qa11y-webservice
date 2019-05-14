@@ -23,7 +23,7 @@ if (fs.existsSync(jsonPath)) {
 	module.exports = {
 		database: env('DATABASE', 'mongodb://qa11ywebservicebd:b51010786d405f6b7c58b1044392283c@dokku-mongo-qa11ywebservicebd:27017/qa11ywebservicebd'),
 		host: env('HOST', '0.0.0.0'),
-		// port: Number(env('PORT', '5000')),
+		port: Number(env('PORT', '5000')),
 		cron: env('CRON', false)
 	};
 }
