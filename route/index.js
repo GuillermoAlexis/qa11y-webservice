@@ -25,7 +25,7 @@ module.exports = function(app) {
 		method: 'GET',
 		path: '/',
 		handler: function(request, reply) {
-			return reply('Qa11y-webservice esta ok.  Repo https://github.com/GuillermoAlex/qa11y-webservice').code(200);
+			return reply('Qa11y-webservice está ok.  Repo https://github.com/GuillermoAlex/qa11y-webservice').code(200);
 		}
 	});
 };
