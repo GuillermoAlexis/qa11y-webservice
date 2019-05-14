@@ -1,5 +1,6 @@
 {
-	"database": "mongodb://qa11ywebservicebd:b51010786d405f6b7c58b1044392283c@dokku-mongo-qa11ywebservicebd:27017/qa11ywebservicebd",
-	"host": "172.17.0.3",
+	"database": "mongodb://localhost/pa11y-webservice",
+	"host": "0.0.0.0",
+	"port": 3000,
 	"cron": "0 30 0 * * *"
 }
