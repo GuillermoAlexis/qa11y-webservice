@@ -1,5 +1,5 @@
 {
 	"database": "mongodb://qa11ywebservicebd:b51010786d405f6b7c58b1044392283c@dokku-mongo-qa11ywebservicebd:27017/qa11ywebservicebd",
-	"host": "http://qa11y-webservice.dokku.iie.cl/",
+	"host": "0.0.0.0",
 	"cron": "0 30 0 * * *"
 }
