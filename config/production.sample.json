@@ -1,5 +1,5 @@
 {
-	"database": "mongodb://qa11ywebservicebd:b51010786d405f6b7c58b1044392283c@dokku-mongo-qa11ywebservicebd:27017/qa11ywebservicebd",
+	"database": "mongodb://qa11ywsbd:e303bd7d20010adad71bfbcaded7fdd9@dokku-mongo-qa11ywsbd:27017/qa11ywsbd",
 	"host": "0.0.0.0",
 	"port": 5000,
 	"cron": "0 30 0 * * *"
