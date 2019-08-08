@@ -13,10 +13,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Qa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
 // Developed by Guillermo Alexis Lemunao Carrasco and Pa11y Guys
-
 /* eslint camelcase: 'off' */
-'use strict';
 
+'use strict';
+var fs = require('fs');
+var stream = fs.createWriteStream("my_file.txt");
 var _ = require('underscore');
 var Joi = require('joi');
 var validateAction = require('pa11y').validateAction;
@@ -26,13 +27,54 @@ module.exports = function(app) {
 	var model = app.model;
 	var server = app.server;
 
-	// Get all tasks
+	// Create a task
+	server.route({
+		method: 'POST',
+		path: '/users',
+		handler: function(request, reply) {
+			
+			if (request.payload.actions && request.payload.actions.length) {
+				for (var action of request.payload.actions) {
+					if (!validateAction(action)) {
+						return reply({
+							statusCode: 400,
+							message: 'Invalid action: "' + action + '"'
+						}).code(400);
+					}
+				}
+			}
+			model.user.create(request.payload, function(error, user) {
+				if (error || !user) {
+					return reply().code(500);
+				}
+				reply(user)
+					.header('Location', 'http://' + request.info.host + '/users/' + user.id)
+					.code(201);
+			});
+		},
+		config: {
+			validate: {
+				query: {},
+				payload: {
+					name: Joi.string().required(),
+					email: Joi.string().required(),
+					password: Joi.string().allow(''),
+					headers: [
+						Joi.string().allow(''),
+						Joi.object().pattern(/.*/, Joi.string().allow(''))
+					]
+				}
+			}
+		}
+	});
+
+	// Get all user
 	server.route({
 		method: 'GET',
-		path: '/tasks',
+		path: '/users',
 		handler: function(request, reply) {
-			model.task.getAll(function(error, tasks) {
-				if (error || !tasks) {
+			model.user.getAll(function(error, users) {
+				if (error || !users) {
 					return reply().code(500);
 				}
 				if (request.query.lastres) {
@@ -40,19 +82,19 @@ module.exports = function(app) {
 						if (error || !results) {
 							return reply().code(500);
 						}
-						var resultsByTask = _.groupBy(results, 'task');
-						tasks = tasks.map(function(task) {
-							if (resultsByTask[task.id] && resultsByTask[task.id].length) {
-								task.last_result = resultsByTask[task.id][0];
+						var resultsByUser = _.groupBy(results, 'user');
+						users = users.map(function(user) {
+							if (resultsByUser[user.id] && resultsByUser[user.id].length) {
+								user.last_result = resultsByUser[user.id][0];
 							} else {
-								task.last_result = null;
+								user.last_result = null;
 							}
-							return task;
+							return user;
 						});
-						reply(tasks).code(200);
+						reply(users).code(200);
 					});
 				} else {
-					reply(tasks).code(200);
+					reply(users).code(200);
 				}
 			});
 		},
@@ -66,80 +108,28 @@ module.exports = function(app) {
 		}
 	});
 
-	// Create a task
-	server.route({
-		method: 'POST',
-		path: '/tasks',
-		handler: function(request, reply) {
-			if (request.payload.actions && request.payload.actions.length) {
-				for (var action of request.payload.actions) {
-					if (!validateAction(action)) {
-						return reply({
-							statusCode: 400,
-							message: 'Invalid action: "' + action + '"'
-						}).code(400);
-					}
-				}
-			}
-			model.task.create(request.payload, function(error, task) {
-				if (error || !task) {
-					return reply().code(500);
-				}
-				reply(task)
-					.header('Location', 'http://' + request.info.host + '/tasks/' + task.id)
-					.code(201);
-			});
-		},
-		config: {
-			validate: {
-				query: {},
-				payload: {
-					name: Joi.string().required(),
-					timeout: Joi.number().integer(),
-					wait: Joi.number().integer(),
-					url: Joi.string().required(),
-					username: Joi.string().allow(''),
-					password: Joi.string().allow(''),
-					standard: Joi.string().required().valid([
-						'Section508',
-						'WCAG2A',
-						'WCAG2AA',
-						'WCAG2AAA'
-					]),
-					ignore: Joi.array(),
-					actions: Joi.array().items(Joi.string()),
-					hideElements: Joi.string().allow(''),
-					headers: [
-						Joi.string().allow(''),
-						Joi.object().pattern(/.*/, Joi.string().allow(''))
-					]
-				}
-			}
-		}
-	});
-
-	// Get results for all tasks
-	server.route({
-		method: 'GET',
-		path: '/tasks/results',
-		handler: function(request, reply) {
-			model.result.getAll(request.query, function(error, results) {
-				if (error || !results) {
-					return reply().code(500);
-				}
-				reply(results).code(200);
-			});
-		},
-		config: {
-			validate: {
-				query: {
-					from: Joi.string().isoDate(),
-					to: Joi.string().isoDate(),
-					full: Joi.boolean()
-				},
-				payload: false
-			}
-		}
-	});
+	// Get results for all users
+	// server.route({
+	// 	method: 'GET',
+	// 	path: '/users/results',
+	// 	handler: function(request, reply) {
+	// 		model.result.getAll(request.query, function(error, results) {
+	// 			if (error || !results) {
+	// 				return reply().code(500);
+	// 			}
+	// 			reply(results).code(200);
+	// 		});
+	// 	},
+	// 	config: {
+	// 		validate: {
+	// 			query: {
+	// 				from: Joi.string().isoDate(),
+	// 				to: Joi.string().isoDate(),
+	// 				full: Joi.boolean()
+	// 			},
+	// 			payload: false
+	// 		}
+	// 	}
+	// });
 
 };

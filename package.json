@@ -35,6 +35,7 @@
   "devDependencies": {
     "eslint": "^3.18.0",
     "mocha": "^3",
+    "nodemon": "^1.19.1",
     "pa11y-lint-config": "^1.0.0",
     "proclaim": "^3",
     "request": "^2"
@@ -42,6 +43,7 @@
   "main": "./app.js",
   "scripts": {
     "start": "node index.js",
-    "test": "make ci"
+    "test": "make ci",
+    "dev": "nodemon index.js"
   }
 }

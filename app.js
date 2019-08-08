@@ -1,23 +1,25 @@
-// This file is part of Pa11y Webservice.
+// This file is part of Qa11y Webservice.
 //
-// Pa11y Webservice is free software: you can redistribute it and/or modify
+// Qa11y Webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Pa11y Webservice is distributed in the hope that it will be useful,
+// Qa11y Webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
+// along with Qa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
+// Developed by Guillermo Alexis Lemunao Carrasco and Pa11y Guys
+
 'use strict';
 
 var async = require('async');
 var Hapi = require('hapi');
-var fs = require('fs');
-var stream = fs.createWriteStream("my_file.txt");
+// var fs = require('fs');
+// var stream = fs.createWriteStream("my_file.txt");
 var MongoClient = require('mongodb').MongoClient;
 var settings = {
 	      autoReconnect : false
@@ -45,11 +47,13 @@ function initApp(config, callback) {
 
 		function(next) {
 			/* eslint camelcase: 'off' */
-			
+			/*
 			stream.once('open', function(fd) {
 			  stream.write(config.database);
 			  stream.end();
 			});
+
+			*/
 			MongoClient.connect(config.database, settings, function(error, db) {
 				app.db = db;
 				next(error);
@@ -71,6 +75,13 @@ function initApp(config, callback) {
 		},
 
 		function(next) {
+			require('./model/user')(app, function(error, model) {
+				app.model.user = model;
+				next(error);
+			});
+		},
+
+		function(next) {
 			if (!config.dbOnly && process.env.NODE_ENV !== 'test') {
 				require('./task/pa11y')(config, app);
 			}
@@ -82,6 +93,7 @@ function initApp(config, callback) {
 				return next();
 			}
 			require('./route/index')(app);
+			require('./route/users')(app);
 			require('./route/tasks')(app);
 			require('./route/task')(app);
 			app.server.start(next);

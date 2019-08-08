@@ -1,17 +1,18 @@
-// This file is part of Pa11y Webservice.
+// This file is part of Qa11y Webservice.
 //
-// Pa11y Webservice is free software: you can redistribute it and/or modify
+// Qa11y Webservice is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Pa11y Webservice is distributed in the hope that it will be useful,
+// Qa11y Webservice is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Pa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
+// along with Qa11y Webservice.  If not, see <http://www.gnu.org/licenses/>.
+// Developed by Guillermo Alexis Lemunao Carrasco and Pa11y Guys
 
 /* eslint id-length: 'off' */
 /* eslint no-catch-shadow: 'off' */
@@ -43,13 +44,25 @@ module.exports = function(app, callback) {
 
 			// Create a task
 			create: function(newTask, callback) {
-				newTask.headers = model.sanitizeHeaderInput(newTask.headers);
+
+				if (newTask.user && !(newTask.user instanceof ObjectID)) {
+					newTask.user = new ObjectID(newTask.user);
+				}
 				collection.insert(newTask, function(error, result) {
 					if (error) {
 						return callback(error);
 					}
 					callback(null, model.prepareForOutput(result.ops[0]));
 				});
+
+
+				// newTask.headers = model.sanitizeHeaderInput(newTask.headers);
+				// collection.insert(newTask, function(error, result) {
+				// 	if (error) {
+				// 		return callback(error);
+				// 	}
+				// 	callback(null, model.prepareForOutput(result.ops[0]));
+				// });
 			},
 
 			// Get all tasks
