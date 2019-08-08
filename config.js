@@ -23,16 +23,16 @@ if (fs.existsSync(jsonPath)) {
 	module.exports = require(jsonPath);
 } else {
 	module.exports = {
-
-		database: env('DATABASE', 'mongodb://localhost/pa11y-webservice'),
-		host: env('HOST', '0.0.0.0'),
-		port: Number(env('PORT', '3000')),
-		cron: env('CRON', false)
-		// produccion
-		// database: env('DATABASE', 'mongodb://qa11ywsbd:e303bd7d20010adad71bfbcaded7fdd9@dokku-mongo-qa11ywsbd:27017/qa11ywsbd'),
+		// local
+		// database: env('DATABASE', 'mongodb://localhost/pa11y-webservice'),
 		// host: env('HOST', '0.0.0.0'),
-		// port: Number(env('PORT', '5000')),
+		// port: Number(env('PORT', '3000')),
 		// cron: env('CRON', false)
+		// produccion
+		database: env('DATABASE', 'mongodb://qa11ywsbd:d3fc2581e25e6da12df3771cfa219c97@dokku-mongo-qa11ywsbd:27017/qa11ywsbd'),
+		host: env('HOST', '0.0.0.0'),
+		port: Number(env('PORT', '5000')),
+		cron: env('CRON', false)
 	};
 }
 

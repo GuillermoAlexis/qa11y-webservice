@@ -1,14 +1,14 @@
-{
-	"database": "mongodb://localhost/pa11y-webservice",
-	"host": "0.0.0.0",
-	"port": 3000,
-	"cron": "0 30 0 * * *"
-}
-
-// produccion
 // {
-// 	"database": "mongodb://qa11ywsbd:e303bd7d20010adad71bfbcaded7fdd9@dokku-mongo-qa11ywsbd:27017/qa11ywsbd",
+// 	"database": "mongodb://localhost/qa11y-webservice",
 // 	"host": "0.0.0.0",
-// 	"port": 5000,
+// 	"port": 3000,
 // 	"cron": "0 30 0 * * *"
 // }
+
+// produccion
+{
+	"database": "mongodb://qa11ywsbd:d3fc2581e25e6da12df3771cfa219c97@dokku-mongo-qa11ywsbd:27017/qa11ywsbd",
+	"host": "0.0.0.0",
+	"port": 5000,
+	"cron": "0 30 0 * * *"
+}

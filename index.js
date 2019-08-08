@@ -27,13 +27,13 @@ process.on('SIGINT', function() {
 
 require('./app')(config, function(error, app) {
 	console.log('');
-	console.log(chalk.underline.cyan('Pa11y Webservice started'));
+	console.log(chalk.underline.cyan('Qa11y Webservice started'));
 	console.log(chalk.grey('mode: %s'), env);
 	console.log(chalk.grey('uri:  %s'), app.server.info.uri);
 
 	if (error) {
 		console.error('');
-		console.error(chalk.red('Error starting Pa11y Webservice:'));
+		console.error(chalk.red('Error starting Qa11y Webservice:'));
 		console.error(error.message);
 	}
 });
